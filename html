@@ -1,0 +1,57 @@
+<div class="container">
+  <h2>Programming Skills and Experience Form</h2>
+  <form [formGroup]="skillsForm" (ngSubmit)="onSubmit()">
+    <label for="name">Name:</label>
+    <input type="text" id="name" formControlName="name">
+
+    <div *ngIf="skillsForm.get('name').hasError('required') && skillsForm.get('name').touched">
+      Name is required.
+    </div>
+
+    <label for="email">Email:</label>
+    <input type="text" id="email" formControlName="email">
+
+    <div *ngIf="skillsForm.get('email').hasError('required') && skillsForm.get('email').touched">
+      Email is required.
+    </div>
+    <div *ngIf="skillsForm.get('email').hasError('email') && skillsForm.get('email').touched">
+      Please enter a valid email address.
+    </div>
+
+    <label>Programming Languages:</label>
+    <div formArrayName="programmingLanguages">
+      <label *ngFor="let language of ['JavaScript', 'Python', 'Java', 'C++']">
+        <input type="checkbox" [formControl]="getLanguageControl(language)"> {{ language }}
+      </label>
+    </div>
+
+    <div *ngIf="programmingLanguages.hasError('required') && programmingLanguages.touched">
+      Please select at least one programming language.
+    </div>
+
+    <label>Experience Level:</label>
+    <div>
+      <label><input type="radio" formControlName="experienceLevel" value="Beginner"> Beginner</label>
+      <label><input type="radio" formControlName="experienceLevel" value="Intermediate"> Intermediate</label>
+      <label><input type="radio" formControlName="experienceLevel" value="Advanced"> Advanced</label>
+    </div>
+
+    <div *ngIf="skillsForm.get('experienceLevel').hasError('required') && skillsForm.get('experienceLevel').touched">
+      Please select your experience level.
+    </div>
+
+    <label for="projectDescription">Project Description:</label>
+    <textarea id="projectDescription" formControlName="projectDescription"></textarea>
+
+    <div *ngIf="skillsForm.get('projectDescription').hasError('required') && skillsForm.get('projectDescription').touched">
+      Project description is required.
+    </div>
+    <div *ngIf="skillsForm.get('projectDescription').hasError('minlength') && skillsForm.get('projectDescription').touched">
+      Project description must be at least 10 characters long.
+    </div>
+
+    <button type="submit" [disabled]="!skillsForm.valid">Submit</button>
+  </form>
+
+  <div *ngIf="successMessage">{{ successMessage }}</div>
+</div>
